@@ -24,23 +24,11 @@ RUN cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local -D INST
 RUN make -j3
 RUN make install
 RUN pkg-config --modversion opencv4
-
-# Install any additional packages you need (e.g., curl, nginx, etc.)
-# Example:
-# RUN apt-get install -y curl
-
-# Set up your application-specific configurations
-# Example:
-# COPY my_app_config.conf /etc/my_app/
-
-# Define the default command to run when the container starts
-# Example:
-# CMD ["nginx", "-g", "daemon off;"]
-
-# Expose any necessary ports
-# Example:
-# EXPOSE 80
-
-# Add other instructions as needed for your specific use case
+WORKDIR /depthai
+RUN git clone https://github.com/luxonis/depthai-core.git
+WORKDIR /depthai/depthai-core
+RUN git submodule update --init --recursive
+RUN cmake -S. -Bbuild -D CMAKE_INSTALL_PREFIX=/usr/local
+RUN cmake --build build --target install
 
 # End of Dockerfile
