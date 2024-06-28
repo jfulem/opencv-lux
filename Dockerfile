@@ -7,7 +7,7 @@ RUN apt update -y
 # Upgrade existing packages
 RUN apt upgrade -y
 
-RUN apt install meson ninja-build
+RUN apt install meson ninja-build -y
 RUN apt install build-essential cmake git libgtk-3-dev \
     pkg-config libavcodec-dev libavformat-dev libswscale-dev \
     libv4l-dev libxvidcore-dev libx264-dev openexr libatlas-base-dev \
