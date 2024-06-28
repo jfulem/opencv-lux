@@ -2,13 +2,13 @@
 FROM ubuntu:22.04
 
 # Update package lists
-RUN apt-get update -y
+RUN apt update -y
 
 # Upgrade existing packages
-RUN apt-get upgrade -y
+RUN apt upgrade -y
 
-RUN apt-get install meson ninja-build
-RUN apt-get install build-essential cmake git libgtk-3-dev \
+RUN apt install meson ninja-build
+RUN apt install build-essential cmake git libgtk-3-dev \
     pkg-config libavcodec-dev libavformat-dev libswscale-dev \
     libv4l-dev libxvidcore-dev libx264-dev openexr libatlas-base-dev \
     libopenexr-dev libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev \
