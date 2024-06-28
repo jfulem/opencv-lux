@@ -23,12 +23,17 @@ WORKDIR /opencv_build/opencv/build
 RUN cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local -D INSTALL_C_EXAMPLES=OFF -D INSTALL_PYTHON_EXAMPLES=OFF -D BUILD_opencv_world=ON -D OPENCV_GENERATE_PKGCONFIG=ON -D BUILD_EXAMPLES=OFF -D OPENCV_EXTRA_MODULES_PATH=/opencv_build/opencv_contrib/modules ..
 RUN make -j3
 RUN make install
+RUN cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local -D INSTALL_C_EXAMPLES=OFF -D INSTALL_PYTHON_EXAMPLES=OFF -D BUILD_opencv_world=ON -D BUILD_SHARED_LIBS=OFF -D OPENCV_GENERATE_PKGCONFIG=ON -D BUILD_EXAMPLES=OFF -D OPENCV_EXTRA_MODULES_PATH=/opencv_build/opencv_contrib/modules ..
+RUN make -j3
+RUN make install
 RUN pkg-config --modversion opencv4
 WORKDIR /depthai
 RUN git clone https://github.com/luxonis/depthai-core.git
 WORKDIR /depthai/depthai-core
 RUN git submodule update --init --recursive
 RUN cmake -S. -Bbuild -D CMAKE_INSTALL_PREFIX=/usr/local
+RUN cmake --build build --target install
+RUN cmake -S. -Bbuild -D BUILD_SHARED_LIBS=ON -D CMAKE_INSTALL_PREFIX=/usr/local
 RUN cmake --build build --target install
 WORKDIR /
 RUN ldconfig
