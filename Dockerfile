@@ -30,5 +30,6 @@ WORKDIR /depthai/depthai-core
 RUN git submodule update --init --recursive
 RUN cmake -S. -Bbuild -D CMAKE_INSTALL_PREFIX=/usr/local
 RUN cmake --build build --target install
-
+WORKDIR /
+RUN ldconfig
 # End of Dockerfile
