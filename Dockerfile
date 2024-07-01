@@ -33,9 +33,9 @@ WORKDIR /depthai
 RUN git clone https://github.com/luxonis/depthai-core.git
 WORKDIR /depthai/depthai-core
 RUN git submodule update --init --recursive
-RUN cmake -S. -Bbuild -D'BUILD_SHARED_LIBS=ON' -D CMAKE_INSTALL_PREFIX=/usr/local
+RUN cmake -S. -Bbuild -D'BUILD_SHARED_LIBS=ON' -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local
 RUN cmake --build build --target install
-RUN cmake -S. -Bbuild_static
+RUN cmake -S. -Bbuild_static -D CMAKE_BUILD_TYPE=Release
 RUN cmake --build build_static
 WORKDIR /
 RUN ldconfig
