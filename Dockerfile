@@ -7,13 +7,15 @@ RUN apt update -y
 # Upgrade existing packages
 RUN apt upgrade -y
 
-RUN apt install meson ninja-build -y
 RUN apt install build-essential cmake git libgtk-3-dev \
     pkg-config libavcodec-dev libavformat-dev libswscale-dev \
     libv4l-dev libxvidcore-dev libx264-dev openexr libatlas-base-dev \
     libopenexr-dev libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev \
     python3-dev python3-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-dev gfortran -y
-
+# Install Meson and Ninja
+RUN python3 -m pip install meson
+RUN python3 -m pip install ninja
+# Build OpenCV and Luxonis DepthAI
 RUN mkdir /opencv_build 
 WORKDIR /opencv_build
 RUN git clone https://github.com/opencv/opencv.git
