@@ -15,7 +15,7 @@ RUN apt install build-essential cmake git libgtk-3-dev \
 # Install Meson and Ninja
 RUN python3 -m pip install meson
 RUN python3 -m pip install ninja
-# Build OpenCV and Luxonis DepthAI
+# Build OpenCV
 RUN mkdir /opencv_build 
 WORKDIR /opencv_build
 RUN git clone https://github.com/opencv/opencv.git
@@ -27,18 +27,22 @@ RUN make -j3
 RUN make install
 RUN mkdir -p /opencv_build/opencv/build_static 
 WORKDIR /opencv_build/opencv/build_static
-RUN cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local -D INSTALL_C_EXAMPLES=OFF -D INSTALL_PYTHON_EXAMPLES=OFF -D BUILD_opencv_world=ON -D BUILD_SHARED_LIBS=OFF -D OPENCV_GENERATE_PKGCONFIG=ON -D BUILD_EXAMPLES=OFF -D OPENCV_EXTRA_MODULES_PATH=/opencv_build/opencv_contrib/modules ..
+RUN cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local -D INSTALL_C_EXAMPLES=OFF -D INSTALL_PYTHON_EXAMPLES=OFF -D BUILD_opencv_world=ON -D BUILD_SHARED_LIBS=OFF -D BUILD_EXAMPLES=OFF -D OPENCV_EXTRA_MODULES_PATH=/opencv_build/opencv_contrib/modules ..
 RUN make -j3
 RUN pkg-config --modversion opencv4
 RUN ldconfig
+# Luxonis DepthAI
+RUN mkdir /depthai
 WORKDIR /depthai
 RUN git clone https://github.com/luxonis/depthai-core.git
 WORKDIR /depthai/depthai-core
 RUN git submodule update --init --recursive
-RUN cmake -S. -Bbuild -D'BUILD_SHARED_LIBS=ON' -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local
-RUN cmake --build build --target install
-RUN cmake -S. -Bbuild_static -D CMAKE_BUILD_TYPE=Release
-RUN cmake --build build_static
+# Shared library
+RUN cmake -S . -B build -D BUILD_SHARED_LIBS=ON -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local
+RUN cmake --build build --target install --parallel 2
+# Static build
+RUN cmake -S . -B build_static -D BUILD_SHARED_LIBS=OFF -D CMAKE_BUILD_TYPE=Release
+RUN cmake --build build_static --parallel 2
 WORKDIR /
 RUN ldconfig
 # End of Dockerfile
