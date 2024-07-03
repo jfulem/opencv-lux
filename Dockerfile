@@ -42,7 +42,7 @@ RUN cmake -S . -B build -D BUILD_SHARED_LIBS=ON -D CMAKE_BUILD_TYPE=Release -D C
 RUN cmake --build build --target install --parallel 2
 # Static build
 RUN cmake -S . -B build_static -D BUILD_SHARED_LIBS=OFF -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local -D DEPTHAI_ENABLE_CURL=OFF
-RUN cmake --build build_static --parallel 2
+RUN cmake --build build_static --target install --parallel 2
 WORKDIR /
 RUN ldconfig
 # End of Dockerfile
