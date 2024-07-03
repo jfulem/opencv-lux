@@ -2,7 +2,7 @@
 FROM ubuntu:22.04
 
 # Update package lists
-RUN apt update -y
+RUN apt update -y  && apt -y --no-install-recommends install tzdata
 
 # Upgrade existing packages
 RUN apt upgrade -y
