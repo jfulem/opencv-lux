@@ -30,4 +30,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: jfulem/opencv-lux:2
+          tags: jfulem/opencv-lux:3
