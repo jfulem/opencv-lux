@@ -1,0 +1,5 @@
+# Use the official Ubuntu 22.04 base image
+FROM jfulem/opencv-lux:4.10.rust
+RUN adduser --system --group --disabled-password --gecos '' bot
+USER bot:bot
+# End of Dockerfile
