@@ -2,4 +2,4 @@
 FROM jfulem/opencv-lux:4.10.rust
 RUN adduser --system --group --disabled-password --gecos '' bot
 USER bot:bot
-# End of Dockerfile
+# End of Dockerfiles
